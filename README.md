@@ -2,13 +2,13 @@
 
 Foundry **Pathfinder 2e** module **Desires Echoes of Creation** (`id`: `desires-echoes-of-creation`).
 
-- **Repository:** [github.com/sjoerddz/Echoes-of-Creation](https://github.com/sjoerddz/Echoes-of-Creation)
+- **Repository:** [github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module](https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module)
 
 ## Install in Foundry (Manifest URL)
 
 After `main` is pushed and release **`v0.1.7`** exists (GitHub Actions or manual upload of `desires-echoes-of-creation.zip`), use **Install Module → Manifest URL**:
 
-`https://raw.githubusercontent.com/sjoerddz/Echoes-of-Creation/main/module.json`
+`https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json`
 
 See [PUBLISHING.md](PUBLISHING.md) for tagging, releases, and updating `manifest` / `download`.
 

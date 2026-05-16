@@ -1,16 +1,16 @@
 {
   "id": "desires-echoes-of-creation",
   "title": "Desires Echoes of Creation",
-  "description": "<p>Pathfinder 2e helpers for the Echoes of Creation campaign: chat context actions for <strong>Steady the Line</strong> (Hellknight Banner) and <strong>Echo Fragment</strong> rerolls, plus a built-in Item compendium (<strong>Echoes of Creation Items</strong>) with the Banner, Echo Fragment, Sovereign Amber (dormant and awakened), and linked aura / Temporal Infusion effects. Item slugs match module settings defaults: <code>hellknight-banner</code>, <code>echo-fragment</code>, <code>sovereign-amber</code>, <code>sovereign-amber-awakened</code>.</p><p><strong>Verified environment:</strong> Foundry v13 Stable (build 351) and Pathfinder Second Edition system <strong>7.12.2</strong>.</p><p><strong>Art</strong> is shipped under <code>assets/</code>; item images use <code>modules/desires-echoes-of-creation/...</code> paths.</p><p><strong>Rebuild compendium (developers):</strong> after editing JSON in <code>packs/desires-echoes-items-src/</code>, run <code>npm install --omit=dev</code> in <code>tools/fvtt-cli/package</code>, then <code>node tools/build-eoc-compendium.mjs</code> from the repo root.</p><p><strong>Repository:</strong> <a href=\"https://github.com/sjoerddz/Echoes-of-Creation\" target=\"_blank\" rel=\"noopener\">github.com/sjoerddz/Echoes-of-Creation</a>. Publishing steps: <code>PUBLISHING.md</code>. Official docs: <a href=\"https://foundryvtt.com/article/publisher-handbook/\" target=\"_blank\" rel=\"noopener\">Publisher Handbook</a>, <a href=\"https://foundryvtt.com/article/module-development/\" target=\"_blank\" rel=\"noopener\">Module development</a>.</p>",
+  "description": "<p>Pathfinder 2e helpers for the Echoes of Creation campaign: chat context actions for <strong>Steady the Line</strong> (Hellknight Banner) and <strong>Echo Fragment</strong> rerolls, plus a built-in Item compendium (<strong>Echoes of Creation Items</strong>) with the Banner, Echo Fragment, Sovereign Amber (dormant and awakened), and linked aura / Temporal Infusion effects. Item slugs match module settings defaults: <code>hellknight-banner</code>, <code>echo-fragment</code>, <code>sovereign-amber</code>, <code>sovereign-amber-awakened</code>.</p><p><strong>Verified environment:</strong> Foundry v13 Stable (build 351) and Pathfinder Second Edition system <strong>7.12.2</strong>.</p><p><strong>Art</strong> is shipped under <code>assets/</code>; item images use <code>modules/desires-echoes-of-creation/...</code> paths.</p><p><strong>Rebuild compendium (developers):</strong> after editing JSON in <code>packs/desires-echoes-items-src/</code>, run <code>npm install --omit=dev</code> in <code>tools/fvtt-cli/package</code>, then <code>node tools/build-eoc-compendium.mjs</code> from the repo root.</p><p><strong>Repository:</strong> <a href=\"https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module\" target=\"_blank\" rel=\"noopener\">github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module</a>. Publishing steps: <code>PUBLISHING.md</code>. Official docs: <a href=\"https://foundryvtt.com/article/publisher-handbook/\" target=\"_blank\" rel=\"noopener\">Publisher Handbook</a>, <a href=\"https://foundryvtt.com/article/module-development/\" target=\"_blank\" rel=\"noopener\">Module development</a>.</p>",
   "version": "0.1.7",
   "authors": [
     {
       "name": "Echoes of Creation"
     }
   ],
-  "url": "https://github.com/sjoerddz/Echoes-of-Creation",
-  "manifest": "https://raw.githubusercontent.com/sjoerddz/Echoes-of-Creation/main/module.json",
-  "download": "https://github.com/sjoerddz/Echoes-of-Creation/releases/download/v0.1.7/desires-echoes-of-creation.zip",
+  "url": "https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module",
+  "manifest": "https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json",
+  "download": "https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/releases/download/v0.1.7/desires-echoes-of-creation.zip",
   "compatibility": {
     "minimum": "13",
     "verified": "13.351"

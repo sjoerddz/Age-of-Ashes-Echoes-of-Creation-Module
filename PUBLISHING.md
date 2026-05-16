@@ -21,19 +21,19 @@ This repo includes:
 
 ### One-time (this repo)
 
-**GitHub remote:** [sjoerddz/Echoes-of-Creation](https://github.com/sjoerddz/Echoes-of-Creation) — clone URL `https://github.com/sjoerddz/Echoes-of-Creation.git`.
+**GitHub remote:** [sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module](https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module) — clone URL `https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module.git`.
 
 `module.json` is already wired with:
 
-- **`url`:** `https://github.com/sjoerddz/Echoes-of-Creation`
-- **`manifest`:** `https://raw.githubusercontent.com/sjoerddz/Echoes-of-Creation/main/module.json` (tracks `main`; after each release you can switch to tag-pinned raw URLs if you prefer)
-- **`download`:** `https://github.com/sjoerddz/Echoes-of-Creation/releases/download/v0.1.7/desires-echoes-of-creation.zip` (exists **after** you push tag **`v0.1.7`** and the release workflow finishes; bump this path whenever **`version`** in `module.json` changes)
+- **`url`:** `https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module`
+- **`manifest`:** `https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json` (tracks `main`; after each release you can switch to tag-pinned raw URLs if you prefer)
+- **`download`:** `https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/releases/download/v0.1.7/desires-echoes-of-creation.zip` (exists **after** you push tag **`v0.1.7`** and the release workflow finishes; bump this path whenever **`version`** in `module.json` changes)
 
 From this project folder on your PC (first push):
 
 ```bash
 git init
-git remote add origin https://github.com/sjoerddz/Echoes-of-Creation.git
+git remote add origin https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module.git
 git add -A
 git commit -m "Initial module"
 git branch -M main
