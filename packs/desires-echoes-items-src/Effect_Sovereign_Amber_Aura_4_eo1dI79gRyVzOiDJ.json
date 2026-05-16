@@ -1,0 +1,52 @@
+{
+  "_key": "!items!eo1dI79gRyVzOiDJ",
+  "_id": "eo1dI79gRyVzOiDJ",
+  "name": "Effect: Sovereign Amber Aura (Dormant)",
+  "type": "effect",
+  "img": "icons/magic/light/explosion-star-gold.webp",
+  "system": {
+    "description": {
+      "value": "<p>Granted by the <em>Sovereign Amber</em> while you remain in its aura. +1 status to saves against effects with the curse or hazard traits (verify predicates with <strong>Inspect Roll</strong> if a save is not picking this up).</p>"
+    },
+    "duration": {
+      "expiry": null,
+      "sustained": false,
+      "unit": "unlimited",
+      "value": -1
+    },
+    "level": {
+      "value": 4
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "predicate": [
+          {
+            "or": [
+              "item:trait:curse",
+              "item:trait:hazard"
+            ]
+          }
+        ],
+        "selector": "saving-throw",
+        "type": "status",
+        "value": 1
+      }
+    ],
+    "start": {
+      "initiative": null,
+      "value": 0
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": []
+    }
+  }
+}

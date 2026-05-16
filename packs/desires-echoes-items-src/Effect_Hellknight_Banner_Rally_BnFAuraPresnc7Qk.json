@@ -1,0 +1,51 @@
+{
+  "_key": "!items!BnFAuraPresnc7Qk",
+  "_id": "BnFAuraPresnc7Qk",
+  "name": "Effect: Hellknight Banner (Rallying Presence)",
+  "type": "effect",
+  "img": "modules/desires-echoes-of-creation/assets/hellknight-banner/conquest.jpg",
+  "system": {
+    "description": {
+      "value": "<p>Granted while you remain within range of an ally who <strong>openly carries</strong> the <em>Hellknight Banner</em> and you can see the standard. <strong>+1 status bonus</strong> to saving throws against effects with the <em>fear</em> trait (use <strong>Inspect Roll</strong> if a save does not pick this up).</p>"
+    },
+    "duration": {
+      "expiry": null,
+      "sustained": false,
+      "unit": "unlimited",
+      "value": -1
+    },
+    "level": {
+      "value": 7
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "predicate": [
+          {
+            "or": [
+              "item:trait:fear"
+            ]
+          }
+        ],
+        "selector": "saving-throw",
+        "type": "status",
+        "value": 1
+      }
+    ],
+    "start": {
+      "initiative": null,
+      "value": 0
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": []
+    }
+  }
+}

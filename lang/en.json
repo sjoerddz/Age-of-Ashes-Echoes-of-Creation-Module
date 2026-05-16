@@ -1,0 +1,31 @@
+{
+  "desires-echoes-of-creation": {
+    "SETTINGS": {
+      "HELLKNIGHT_BANNER_SLUG": {
+        "NAME": "Hellknight Banner item slug",
+        "HINT": "PF2e item slug used to find the Hellknight Banner on an actor (match your compendium item)."
+      },
+      "ECHO_FRAGMENT_SLUG": {
+        "NAME": "Echo Fragment item slug",
+        "HINT": "PF2e item slug used to find Echo Fragment consumables on the roller."
+      },
+      "DEBUG_CHAT_CONTEXT": {
+        "NAME": "Debug: chat context menus (console)",
+        "HINT": "Log [desires-echoes-of-creation][context] lines to the devtools console. Electron: Help, Toggle Developer Tools. Turn ON, reload (F5), confirm the yellow \"Debug is ON\" line on load; right-click chat for hook:* logs."
+      }
+    },
+    "CONTEXT": {
+      "STEADY_THE_LINE": "Upgrade using reaction \"Steady the Line\"",
+      "ECHO_FRAGMENT_REROLL": "Reroll using Echo fragment"
+    },
+    "WARN": {
+      "PF2E_ONLY": "Desires Echoes of Creation requires the Pathfinder 2e system.",
+      "STEADY_PF2E_API": "Steady the Line: could not update this PF2e chat card automatically. Adjust the degree of success manually.",
+      "ECHO_PF2E_API": "Echo Fragment: no PF2e reroll handler was found on this message. Use the system reroll tools, then adjust Echo Fragment quantity manually if needed.",
+      "ECHO_NO_ITEM": "No Echo Fragment item found on this actor (check the slug setting).",
+      "ECHO_NOT_OWNER": "You can only Echo-reroll your own rolls.",
+      "STEADY_IMMUNE": "That ally is currently immune to Steady the Line from this banner (until daily preparation clears the flag in a future update, use the actor Flags tab to remove steadyLineImmune if needed).",
+      "STEADY_NO_BEARER": "Steady the Line: you must control an actor who is openly carrying the Hellknight Banner."
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "_key": "!items!aO2Rz5arpajNqrxu",
+  "_id": "aO2Rz5arpajNqrxu",
+  "name": "Effect: Sovereign Amber Aura (Awakened)",
+  "type": "effect",
+  "img": "icons/magic/light/explosion-star-gold.webp",
+  "system": {
+    "description": {
+      "value": "<p>Granted by the awakened <em>Sovereign Amber</em> while you remain in its aura: +2 status to saves vs curse/hazard, +1 status to Perception, +1 status to Reflex saves.</p>"
+    },
+    "duration": {
+      "expiry": null,
+      "sustained": false,
+      "unit": "unlimited",
+      "value": -1
+    },
+    "level": {
+      "value": 8
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "predicate": [
+          {
+            "or": [
+              "item:trait:curse",
+              "item:trait:hazard"
+            ]
+          }
+        ],
+        "selector": "saving-throw",
+        "type": "status",
+        "value": 2
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "perception",
+        "type": "status",
+        "value": 1
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "reflex",
+        "type": "status",
+        "value": 1
+      }
+    ],
+    "start": {
+      "initiative": null,
+      "value": 0
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": []
+    }
+  }
+}

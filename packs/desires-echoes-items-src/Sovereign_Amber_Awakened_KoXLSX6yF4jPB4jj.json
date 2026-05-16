@@ -1,0 +1,68 @@
+{
+  "_key": "!items!KoXLSX6yF4jPB4jj",
+  "_id": "KoXLSX6yF4jPB4jj",
+  "name": "Sovereign Amber, Awakened",
+  "type": "equipment",
+  "img": "modules/desires-echoes-of-creation/assets/sovereign-amber/restored.png",
+  "system": {
+    "baseItem": null,
+    "bulk": {
+      "value": 0.1
+    },
+    "containerId": null,
+    "description": {
+      "value": "<p>After the third Dragon Pillar falls, the amber drinks in restored magic: golden starlight flares and the leaf cycles smoothly. This is the awakened stat block — keep a copy of the dormant item if you still need the earlier version on the timeline.</p><p><strong>Aura</strong> 30 feet (see effect for bonuses).</p><p><strong>Stitch the Fracture</strong> <span class=\"action-glyph\">R</span> (once per round)</p><p><strong>Trigger</strong> An ally in the aura takes persistent damage.</p><p><strong>Effect</strong> You attempt a flat check to end that persistent damage (DC 10, or DC 5 if an ally already assisted treating the wound this turn). The system does not automate this — roll in chat.</p><p><strong>Borrowed Seconds</strong> <span class=\"action-glyph\">1</span> (once per day, after resting)</p><p>Pick one ally in the aura. They become @UUID[Compendium.pf2e.conditionitems.nlCjDvLMf2EkV2dl] for 1 round; <strong>table rule:</strong> that extra action may be used only to Stride, Step, or Interact.</p>"
+    },
+    "hardness": 0,
+    "hp": {
+      "max": 0,
+      "value": 0
+    },
+    "level": {
+      "value": 8
+    },
+    "material": {
+      "grade": null,
+      "type": null
+    },
+    "price": {
+      "value": {}
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "quantity": 1,
+    "rules": [
+      {
+        "effects": [
+          {
+            "affects": "allies",
+            "events": [
+              "enter"
+            ],
+            "uuid": "Compendium.desires-echoes-of-creation.desires-echoes-items.aO2Rz5arpajNqrxu"
+          }
+        ],
+        "key": "Aura",
+        "radius": 30,
+        "slug": "sovereign-amber-aura-awakened",
+        "traits": [
+          "visual"
+        ]
+      }
+    ],
+    "size": "med",
+    "traits": {
+      "rarity": "unique",
+      "value": [
+        "invested",
+        "magical"
+      ]
+    },
+    "usage": {
+      "value": "worn"
+    }
+  }
+}

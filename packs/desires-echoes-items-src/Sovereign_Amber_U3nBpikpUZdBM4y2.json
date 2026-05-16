@@ -1,0 +1,68 @@
+{
+  "_key": "!items!U3nBpikpUZdBM4y2",
+  "_id": "U3nBpikpUZdBM4y2",
+  "name": "Sovereign Amber",
+  "type": "equipment",
+  "img": "modules/desires-echoes-of-creation/assets/sovereign-amber/damaged.png",
+  "system": {
+    "baseItem": null,
+    "bulk": {
+      "value": 0.1
+    },
+    "containerId": null,
+    "description": {
+      "value": "<p><em>The Ekujae call this relic the Venerable Tear:</em> a fist-sized chunk of ancient golden amber on braided ironwood bark. Inside, a green leaf from a tree lost to Earthfall cycles through bud, bloom, and gold — a pocket of time that does not match the world. It is cool to the touch and cannot be burned. The Ekujae sense it resists Cinderclaw “ash,” and trust it to those who carry another Anchor, such as the Hellknight Banner.</p><p><strong>Anchor resonance (narrative)</strong> Within 60 feet of the Hellknight Banner, Echo transitions feel steadier and the jungle’s weird time skips less often ruin navigation — track that at the table.</p><p><strong>Anchored Vitality (narrative)</strong> Allies in the aura who are below half HP recover <strong>1 HP per minute</strong>; track this manually.</p><p><strong>Aura</strong> 20 feet.</p><p><strong>Temporal Infusion</strong> <span class=\"action-glyph\">1</span> (once per day, after resting)</p><p>You tap the amber to hurry time within nearby restorative magic. Until the end of your turn, the first qualifying healing in the aura gains extra dice — apply @UUID[Compendium.desires-echoes-of-creation.desires-echoes-items.SXgExdrDhB56UETn]{Temporal Infusion} to eligible allies.</p>"
+    },
+    "hardness": 0,
+    "hp": {
+      "max": 0,
+      "value": 0
+    },
+    "level": {
+      "value": 4
+    },
+    "material": {
+      "grade": null,
+      "type": null
+    },
+    "price": {
+      "value": {}
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "quantity": 1,
+    "rules": [
+      {
+        "effects": [
+          {
+            "affects": "allies",
+            "events": [
+              "enter"
+            ],
+            "uuid": "Compendium.desires-echoes-of-creation.desires-echoes-items.eo1dI79gRyVzOiDJ"
+          }
+        ],
+        "key": "Aura",
+        "radius": 20,
+        "slug": "sovereign-amber-aura",
+        "traits": [
+          "visual"
+        ]
+      }
+    ],
+    "size": "med",
+    "traits": {
+      "rarity": "unique",
+      "value": [
+        "invested",
+        "magical"
+      ]
+    },
+    "usage": {
+      "value": "worn"
+    }
+  }
+}

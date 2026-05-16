@@ -1,0 +1,18 @@
+dist/
+staging/
+*.zip
+
+# Secrets & local env
+.env
+.env.*
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+.cursorrules
+
+.cursor/
+tools/node-portable/
+tools/fvtt-cli/fvtt-cli.tgz
+tools/fvtt-cli/package/node_modules/
+tools/node-portable.zip

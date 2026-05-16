@@ -1,0 +1,55 @@
+# Builds a Foundry-ready zip (root folder = module id) and attaches it to a GitHub Release when you push a version tag.
+# One-time: create the empty repo on GitHub under your account, add this folder as remote, push main, then tag e.g. v0.1.0 and push tags.
+
+name: Release Foundry module
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build module zip
+        env:
+          MODULE_ID: desires-echoes-of-creation
+        run: |
+          set -euo pipefail
+          rm -rf "staging" "${MODULE_ID}.zip"
+          mkdir -p "staging/${MODULE_ID}"
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.cursor' \
+            --exclude='staging' \
+            --exclude='dist' \
+            --exclude='*.zip' \
+            --exclude='tools' \
+            --exclude='packs/desires-echoes-items-src' \
+            ./ "staging/${MODULE_ID}/"
+          (cd staging && zip -qr "../${MODULE_ID}.zip" "${MODULE_ID}")
+          unzip -l "${MODULE_ID}.zip" | head -n 20
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: desires-echoes-of-creation.zip
+          generate_release_notes: true
+
+      - name: Print Foundry manifest URLs for this tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          OWNER="${GITHUB_REPOSITORY%%/*}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+          echo "=== Copy into module.json for this release (then commit before next tag if you want them baked in) ==="
+          echo "url: https://github.com/${OWNER}/${REPO}"
+          echo "manifest: https://raw.githubusercontent.com/${OWNER}/${REPO}/${TAG}/module.json"
+          echo "download: https://github.com/${OWNER}/${REPO}/releases/download/${TAG}/desires-echoes-of-creation.zip"

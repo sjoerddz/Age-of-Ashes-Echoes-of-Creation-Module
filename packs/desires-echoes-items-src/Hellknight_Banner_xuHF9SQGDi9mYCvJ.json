@@ -1,0 +1,67 @@
+{
+  "_key": "!items!xuHF9SQGDi9mYCvJ",
+  "_id": "xuHF9SQGDi9mYCvJ",
+  "name": "Hellknight Banner",
+  "type": "equipment",
+  "img": "modules/desires-echoes-of-creation/assets/hellknight-banner/conquest.jpg",
+  "system": {
+    "baseItem": null,
+    "bulk": {
+      "value": 1
+    },
+    "containerId": null,
+    "description": {
+      "value": "<p>The banner is more substantial than it first appears. Its fabric is thick, tightly woven, and repaired in places where time should have worn it through. The golden Nails stitched into its face are not perfectly matched — each seems to have been replaced by a different hand, at a different time.</p><p>The emblem is unmistakably of the Order of Nails Chapter of Hellknights: severe, uncompromising, and formal. Yet this does not appear to be made for war. The stitching favors visibility over intimidation, clarity over beauty — this was meant to be seen, not to inspire fear.</p><p>Despite its age, the banner does not fray. Dust refuses to cling to it, and when it is moved, the air around it feels briefly steadier, as though something uncertain has settled into place.</p><p>Those who stand near it find their thoughts align more easily. Doubt does not vanish, but it loosens its grip. Panic becomes manageable, no longer pressing at the edges of thought.</p><p>Whatever conflict this standard once witnessed, it endured not because it imposed authority, but because it endured when other things failed.</p><p><em>Ever since the fateful encounter with Voz in Alsetta’s Ring, the banner looks different: stitching that was once askew seems corrected. While holding it you feel as though your grasp on reality is more firm somehow.</em></p><p><strong>While the banner is carried openly</strong> — held in <strong>one or two hands</strong>, or <strong>worn</strong> on your person (set the item’s <strong>usage / carry type</strong> on the sheet to match: e.g. cloak or another worn slot if your GM treats it as mounted on your back). It must not be <strong>stowed</strong> in a pack. <strong>Steady the Line</strong> and this item’s automation use the module’s notion of “openly carried.”</p><p>Allies within <strong>30 feet</strong> who can see the banner gain <strong>+1 status bonus to saving throws</strong> against effects with the <em>fear</em> trait. The system applies @UUID[Compendium.desires-echoes-of-creation.desires-echoes-items.BnFAuraPresnc7Qk]{Rallying Presence} while they remain in the aura.</p><p><strong>Steady the Line</strong> <span class=\"action-glyph\">R</span></p><p><strong>Trigger</strong> An ally within <strong>30 feet</strong> who can see the banner rolls a <strong>failure</strong> (not a <strong>critical failure</strong>) on a saving throw.</p><p><strong>Effect</strong> That ally treats the result as <strong>one degree of success better</strong>. That ally is then immune to Steady the Line from this banner until your next daily preparations (the <strong>Desires Echoes of Creation</strong> module tracks this when you use the chat context action).</p>"
+    },
+    "hardness": 0,
+    "hp": {
+      "max": 0,
+      "value": 0
+    },
+    "level": {
+      "value": 7
+    },
+    "material": {
+      "grade": null,
+      "type": null
+    },
+    "price": {
+      "value": {}
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "quantity": 1,
+    "rules": [
+      {
+        "effects": [
+          {
+            "affects": "allies",
+            "events": [
+              "enter"
+            ],
+            "uuid": "Compendium.desires-echoes-of-creation.desires-echoes-items.BnFAuraPresnc7Qk"
+          }
+        ],
+        "key": "Aura",
+        "radius": 30,
+        "slug": "hellknight-banner-rally",
+        "traits": [
+          "visual"
+        ]
+      }
+    ],
+    "size": "med",
+    "traits": {
+      "rarity": "unique",
+      "value": [
+        "magical"
+      ]
+    },
+    "usage": {
+      "value": "held-in-one-or-two-hands"
+    }
+  }
+}

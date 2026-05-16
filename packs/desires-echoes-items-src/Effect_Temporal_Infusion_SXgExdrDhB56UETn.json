@@ -1,0 +1,45 @@
+{
+  "_key": "!items!SXgExdrDhB56UETn",
+  "_id": "SXgExdrDhB56UETn",
+  "name": "Effect: Temporal Infusion (Amplified Healing)",
+  "type": "effect",
+  "img": "icons/magic/water/water-drop-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>The next time you receive healing from an elixir of life or a healing spell before this effect ends, add <strong>4d6</strong> extra hit points (dormant Amber uses item level 4; adjust manually for higher-rank effects).</p><p>If the bonus never appears in the roll inspector, remove this effect and add the dice manually — PF2e support for <code>healing-received</code> varies by build.</p>"
+    },
+    "duration": {
+      "expiry": "turn-end",
+      "sustained": false,
+      "unit": "round",
+      "value": 1
+    },
+    "level": {
+      "value": 4
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "rules": [
+      {
+        "key": "DamageDice",
+        "selector": "healing-received",
+        "diceNumber": 4,
+        "dieSize": "d6",
+        "label": "Temporal Infusion"
+      }
+    ],
+    "start": {
+      "initiative": null,
+      "value": 0
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "traits": {
+      "value": []
+    }
+  }
+}

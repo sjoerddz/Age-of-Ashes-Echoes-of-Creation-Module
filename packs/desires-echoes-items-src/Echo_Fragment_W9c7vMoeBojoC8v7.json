@@ -1,0 +1,52 @@
+{
+  "_key": "!items!W9c7vMoeBojoC8v7",
+  "_id": "W9c7vMoeBojoC8v7",
+  "name": "Echo Fragment",
+  "slug": "echo-fragment",
+  "type": "consumable",
+  "img": "icons/magic/symbols/runes-star-pentagon-blue.webp",
+  "system": {
+    "baseItem": null,
+    "bulk": {
+      "value": 0
+    },
+    "category": "other",
+    "containerId": null,
+    "damage": null,
+    "description": {
+      "value": "<p>A sliver of fractured time. Spend one fragment from your inventory to use the <strong>Echo Fragment reroll</strong> context action on your own PF2e chat cards (requires the <strong>Desires Echoes of Creation</strong> module).</p>"
+    },
+    "hardness": 0,
+    "hp": {
+      "max": 0,
+      "value": 0
+    },
+    "level": {
+      "value": 1
+    },
+    "material": {
+      "grade": null,
+      "type": null
+    },
+    "price": {
+      "value": {}
+    },
+    "publication": {
+      "license": "ORC",
+      "remaster": true,
+      "title": "Echoes of Creation (Homebrew)"
+    },
+    "quantity": 1,
+    "rules": [],
+    "size": "med",
+    "traits": {
+      "rarity": "unique",
+      "value": [
+        "magical"
+      ]
+    },
+    "usage": {
+      "value": "held-in-one-hand"
+    }
+  }
+}
