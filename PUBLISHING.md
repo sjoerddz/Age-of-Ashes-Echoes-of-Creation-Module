@@ -16,7 +16,7 @@ Official references:
 
 This repo includes:
 
-- **`.github/workflows/release.yml`** — on every **`v*`** tag push (e.g. `v0.1.0`), GitHub Actions builds **`desires-echoes-of-creation.zip`** whose root folder matches the module `id`, uploads it to a **GitHub Release** for that tag, and prints the exact **`url` / `manifest` / `download`** lines in the job log (copy into `module.json` for that version).
+- **`.github/workflows/release.yml`** — on every **`v*`** tag push (tag must match the release you are cutting, e.g. `v0.1.7` for `module.json` **`version`** `0.1.7`), GitHub Actions builds **`desires-echoes-of-creation.zip`** whose root folder matches the module `id`, uploads it to a **GitHub Release** for that tag, and prints the exact **`url` / `manifest` / `download`** lines in the job log (copy into `module.json` for that version). The staging step **excludes** **`tools/`** and **`packs/desires-echoes-items-src/`** so the zip matches what players need in Foundry.
 - **`tools/package-module.ps1`** — same zip layout locally → **`dist/desires-echoes-of-creation.zip`** without using Actions.
 
 ### One-time (this repo)
@@ -27,7 +27,7 @@ This repo includes:
 
 - **`url`:** `https://github.com/sjoerddz/Echoes-of-Creation`
 - **`manifest`:** `https://raw.githubusercontent.com/sjoerddz/Echoes-of-Creation/main/module.json` (tracks `main`; after each release you can switch to tag-pinned raw URLs if you prefer)
-- **`download`:** `https://github.com/sjoerddz/Echoes-of-Creation/releases/download/v0.1.0/desires-echoes-of-creation.zip` (exists **after** you push tag `v0.1.0` and the release workflow finishes)
+- **`download`:** `https://github.com/sjoerddz/Echoes-of-Creation/releases/download/v0.1.7/desires-echoes-of-creation.zip` (exists **after** you push tag **`v0.1.7`** and the release workflow finishes; bump this path whenever **`version`** in `module.json` changes)
 
 From this project folder on your PC (first push):
 
@@ -40,16 +40,16 @@ git branch -M main
 git push -u origin main
 ```
 
-Then push **`v0.1.0`** so Foundry can download the zip (see **Each release** below). Until that release exists, **Manifest URL** install will load the manifest from `main` but fail on the missing zip — either run Actions once or attach `dist/desires-echoes-of-creation.zip` from `tools/package-module.ps1` to a manual `v0.1.0` release.
+Then push a **version tag** (e.g. **`v0.1.7`**) so Foundry can download the zip (see **Each release** below). Until a matching release exists, **Manifest URL** install will load the manifest from `main` but can fail on the **`download`** zip — either run Actions for that tag or attach `dist/desires-echoes-of-creation.zip` from `tools/package-module.ps1` to a manual GitHub Release for the same tag.
 
 ### Each release
 
-1. Bump **`version`** in `module.json` (must match the tag you are about to use, e.g. `0.1.0` ↔ tag `v0.1.0`).
+1. Bump **`version`** in `module.json` (must match the tag you are about to use, e.g. `0.1.7` ↔ tag `v0.1.7`).
 2. Commit and push `main`, then:
 
    ```bash
-   git tag v0.1.0
-   git push origin v0.1.0
+   git tag v0.1.7
+   git push origin v0.1.7
    ```
 
 3. Open the **Actions** run for that tag → expand **“Print Foundry manifest URLs”** → copy the three URLs into `module.json`, commit, push (optional follow-up commit), or keep them only in the release notes for testers.

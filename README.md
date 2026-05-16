@@ -6,7 +6,7 @@ Foundry **Pathfinder 2e** module **Desires Echoes of Creation** (`id`: `desires-
 
 ## Install in Foundry (Manifest URL)
 
-After `main` is pushed and release **`v0.1.0`** exists (GitHub Actions or manual upload of `desires-echoes-of-creation.zip`), use **Install Module → Manifest URL**:
+After `main` is pushed and release **`v0.1.7`** exists (GitHub Actions or manual upload of `desires-echoes-of-creation.zip`), use **Install Module → Manifest URL**:
 
 `https://raw.githubusercontent.com/sjoerddz/Echoes-of-Creation/main/module.json`
 
@@ -16,7 +16,7 @@ See [PUBLISHING.md](PUBLISHING.md) for tagging, releases, and updating `manifest
 
 Requires **Foundry 13** and **PF2e 7.12+** (see `module.json` `compatibility` / `relationships`).
 
-Local zip (same layout as CI): run `tools/package-module.ps1` → `dist/desires-echoes-of-creation.zip` (heavy paths under `tools/` such as `node-portable` and `node_modules` are stripped from the zip).
+Local zip (same layout as CI): from the repo root run `tools/package-module.ps1` → `dist/desires-echoes-of-creation.zip`. The archive is **Foundry-only**: it omits the entire **`tools/`** tree (CLI, build scripts, `node_modules`) and **`packs/desires-echoes-items-src/`** (JSON sources); it **includes** the compiled LevelDB pack **`packs/desires-echoes-items/`** plus `scripts/`, `lang/`, `assets/`, and `module.json`.
 
 ## Compendium and slugs
 
