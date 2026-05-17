@@ -9,6 +9,7 @@
     }
   ],
   "url": "https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module",
+  "license": "LICENSE",
   "manifest": "https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json",
   "download": "https://github.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/releases/download/v0.1.7/desires-echoes-of-creation.zip",
   "compatibility": {

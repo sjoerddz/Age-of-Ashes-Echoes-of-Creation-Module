@@ -55,3 +55,4 @@ Planning and deeper implementation notes: [ROADMAP.md](ROADMAP.md).
 
 - [Publisher Handbook](https://foundryvtt.com/article/publisher-handbook/) · [Module development](https://foundryvtt.com/article/module-development/) · [Versioning](https://foundryvtt.com/article/versioning/)
 - This repo: [PUBLISHING.md](PUBLISHING.md) (tags, `manifest`, `download`, CI).
+- **License:** [MIT](LICENSE) for module source and original assets in this package. *Pathfinder* and related marks are trademarks of **Paizo Inc.**; this module is not published by or affiliated with Paizo. Use Paizo/community programs (e.g. Community Use Policy) where applicable for any Paizo-derived content you distribute.
