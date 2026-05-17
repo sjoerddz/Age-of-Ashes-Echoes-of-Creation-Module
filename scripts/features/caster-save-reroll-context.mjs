@@ -19,7 +19,6 @@ import { loc, MODULE_ID } from "../lib/module-constants.mjs";
 import { debugContext, debugContextEnabled } from "../lib/module-debug.mjs";
 import { SETTING_ECHO_SLUG } from "../lib/module-settings.mjs";
 import {
-    tryPf2eCheckRerollKeepNew,
     tryPf2eStandaloneSavingThrowRerollKeepNewManual,
     tryPf2eToolbeltEmbeddedSaveRerollKeepNew
 } from "../lib/pf2e-reroll.mjs";
@@ -176,11 +175,17 @@ async function casterSaveEchoCallback(first, second)
     }
     else if (isStandalonePf2eSavingThrowMessage(message))
     {
-        ok = await tryPf2eCheckRerollKeepNew(message);
-        if (!ok)
-        {
-            ok = await tryPf2eStandaloneSavingThrowRerollKeepNewManual(message);
-        }
+        /*
+         * Do not call {@link tryPf2eCheckRerollKeepNew} here: PF2e {@code Check.rerollFromMessage}
+         * deletes the chat message and recreates it. When the GM rolled the save (poster is GM,
+         * caster only pays the fragment), the caster is often not {@link ChatMessage#isAuthor},
+         * which yields {@code PF2E.RerollMenu.ErrorCantDelete} while some fallthrough paths can
+         * still resolve {@code true} — spending the fragment for a failed reroll.
+         *
+         * In-place keep-new uses {@link ChatMessage#update} and matches the Toolbelt path
+         * (no delete of the card).
+         */
+        ok = await tryPf2eStandaloneSavingThrowRerollKeepNewManual(message);
     }
 
     if (!ok)
