@@ -29,7 +29,9 @@
       "STEADY_NO_BEARER": "Steady the Line: you must control an actor who is openly carrying the Hellknight Banner.",
       "CASTER_SAVE_ECHO_NOT_CASTER_OWNER": "Echo Fragment: only the spell's caster (or a GM) can pay for this reroll.",
       "CASTER_SAVE_ECHO_NO_ITEM": "Echo Fragment: no Echo Fragment on the caster (check the slug setting).",
-      "CASTER_SAVE_ECHO_PF2E_API": "Echo Fragment: could not reroll this save automatically. Use system tools, then adjust Echo Fragment quantity manually if needed."
+      "CASTER_SAVE_ECHO_PF2E_API": "Echo Fragment: could not reroll this save automatically. Use system tools, then adjust Echo Fragment quantity manually if needed.",
+      "CASTER_SAVE_ECHO_NO_GM": "Echo Fragment: no GM is connected to apply this save reroll. The GM must be logged in.",
+      "CASTER_SAVE_ECHO_SOCKET_TIMEOUT": "Echo Fragment: the GM did not complete the save reroll in time — try again or reroll manually."
     }
   }
 }

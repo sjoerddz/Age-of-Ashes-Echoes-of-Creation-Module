@@ -151,6 +151,58 @@ export function canUserInvokeCasterSaveEchoReroll(casterActor)
 }
 
 /**
+ * Same gate as {@link canUserInvokeCasterSaveEchoReroll}, but for an arbitrary logged-in user
+ * (e.g. validating a socket request on the GM client).
+ *
+ * @param {User | null | undefined} user
+ * @param {Actor | null | undefined} casterActor
+ * @returns {boolean}
+ */
+export function canUserInvokeCasterSaveEchoRerollForUser(user, casterActor)
+{
+    if (!user || !casterActor)
+    {
+        return false;
+    }
+
+    if (user.isGM)
+    {
+        return true;
+    }
+
+    return casterActor.testUserPermission(user, "OWNER") === true;
+}
+
+/**
+ * Whether the current user may call {@link ChatMessage#update} on this message (author or GM).
+ *
+ * @param {ChatMessage | null | undefined} message
+ * @returns {boolean}
+ */
+export function currentUserMayUpdateChatMessage(message)
+{
+    if (!message)
+    {
+        return false;
+    }
+
+    if (game.user?.isGM)
+    {
+        return true;
+    }
+
+    /** @type {any} */
+    const m = message;
+
+    if (m.canUserModify?.(game.user, "update") === true)
+    {
+        return true;
+    }
+
+    return m.author?.id === game.user.id;
+}
+
+/**
  * @param {Actor | null | undefined} casterActor
  * @param {string} slug
  * @returns {Item | null}

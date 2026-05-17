@@ -8,6 +8,7 @@ Bootstrap entry for the Desires Echoes of Creation Foundry module (PF2e, Foundry
 
 import { installChatLogContextPrototypePatchEarly, registerDesiresEchoesChatContext } from "./features/register-chat-context.mjs";
 import { loc } from "./lib/module-constants.mjs";
+import { registerCasterSaveGmSocket } from "./lib/caster-save-gm-socket.mjs";
 import { logDebugContextArmedIfEnabled } from "./lib/module-debug.mjs";
 import { registerModuleSettings } from "./lib/module-settings.mjs";
 
@@ -31,5 +32,6 @@ Hooks.once("ready", () =>
     }
 
     registerDesiresEchoesChatContext();
+    registerCasterSaveGmSocket();
     logDebugContextArmedIfEnabled();
 });

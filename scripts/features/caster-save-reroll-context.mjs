@@ -8,12 +8,14 @@ Chat context: Echo Fragment reroll initiated by the spell caster — target save
 
 import {
     canUserInvokeCasterSaveEchoReroll,
+    currentUserMayUpdateChatMessage,
     findEchoFragmentOnActor,
     getSpellCasterActorFromSaveRelatedMessage,
     isCasterSaveEchoEligibleMessage,
     isStandalonePf2eSavingThrowMessage,
     isToolbeltSpellWithSingleEmbeddedSave
 } from "../lib/caster-save-helpers.mjs";
+import { requestGmStandaloneSaveRerollKeepNew } from "../lib/caster-save-gm-socket.mjs";
 import { getChatMessageFromContextTarget, resolveContextMenuTarget } from "../lib/chat-from-li.mjs";
 import { loc, MODULE_ID } from "../lib/module-constants.mjs";
 import { debugContext, debugContextEnabled } from "../lib/module-debug.mjs";
@@ -168,6 +170,8 @@ async function casterSaveEchoCallback(first, second)
     }
 
     let ok = false;
+    /** When the active GM rerolled via socket, they already spent the Echo Fragment. */
+    let fragmentAlreadySpent = false;
 
     if (isToolbeltSpellWithSingleEmbeddedSave(message))
     {
@@ -182,10 +186,19 @@ async function casterSaveEchoCallback(first, second)
          * which yields {@code PF2E.RerollMenu.ErrorCantDelete} while some fallthrough paths can
          * still resolve {@code true} — spending the fragment for a failed reroll.
          *
-         * In-place keep-new uses {@link ChatMessage#update} and matches the Toolbelt path
-         * (no delete of the card).
+         * In-place keep-new uses {@link ChatMessage#update}. Players lack that permission on
+         * GM-authored cards — {@link requestGmStandaloneSaveRerollKeepNew} has the active GM apply
+         * the update and spend the fragment.
          */
-        ok = await tryPf2eStandaloneSavingThrowRerollKeepNewManual(message);
+        if (currentUserMayUpdateChatMessage(message))
+        {
+            ok = await tryPf2eStandaloneSavingThrowRerollKeepNewManual(message);
+        }
+        else
+        {
+            ok = await requestGmStandaloneSaveRerollKeepNew({ messageId: message.id });
+            fragmentAlreadySpent = ok;
+        }
     }
 
     if (!ok)
@@ -194,5 +207,8 @@ async function casterSaveEchoCallback(first, second)
         return;
     }
 
-    await consumeOneEchoFragment(echoItem);
+    if (!fragmentAlreadySpent)
+    {
+        await consumeOneEchoFragment(echoItem);
+    }
 }
