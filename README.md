@@ -26,7 +26,7 @@ Use **Install Module → Manifest URL** with:
 https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json
 ```
 
-**Before install works,** GitHub must host a **release** whose tag matches `module.json`: tag **`v` + `version`** (example: version `0.1.8` → tag `v0.1.8`) and release asset **`desires-echoes-of-creation.zip`**. Push tag `v*` to run the [release workflow](.github/workflows/release.yml), or upload the zip manually. Full procedure: [PUBLISHING.md](PUBLISHING.md).
+**Before install works,** GitHub must host a **release** whose tag matches `module.json`: tag **`v` + `version`** (example: version `0.1.9` → tag `v0.1.9`) and release asset **`desires-echoes-of-creation.zip`**. Push tag `v*` to run the [release workflow](.github/workflows/release.yml), or upload the zip manually. Full procedure: [PUBLISHING.md](PUBLISHING.md).
 
 ### If install fails
 
