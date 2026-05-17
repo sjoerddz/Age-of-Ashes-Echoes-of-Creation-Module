@@ -41,6 +41,91 @@ function getDamageRollConstructor()
 }
 
 /**
+ * @returns {constructor | null}
+ */
+function getCheckRollConstructor()
+{
+    /** @type {any[]} */
+    const list = CONFIG.Dice?.rolls ?? [];
+
+    return /** @type {constructor | null} */ (list.find((r) => r?.name === "CheckRoll") ?? null);
+}
+
+/**
+ * @param {any} roll
+ * @returns {number}
+ */
+function firstD20Result(roll)
+{
+    if (!roll)
+    {
+        return NaN;
+    }
+
+    for (const t of roll.terms ?? [])
+    {
+        if (!t?.results?.length)
+        {
+            continue;
+        }
+
+        const r = t.results.find((/** @type {any} */ x) => x.active)?.result;
+
+        if (typeof r === "number")
+        {
+            return r;
+        }
+    }
+
+    return NaN;
+}
+
+/**
+ * PF2e Remaster basic saving throw: compare total to DC, then nat 20 improves / nat 1 worsens by one step.
+ *
+ * @param {number} total
+ * @param {number} nat
+ * @param {number} dc
+ * @returns {"criticalFailure"|"failure"|"success"|"criticalSuccess"}
+ */
+function basicSavingThrowOutcomeDegreeSlug(total, nat, dc)
+{
+    let deg = 1;
+
+    if (total >= dc + 10)
+    {
+        deg = 3;
+    }
+    else if (total >= dc)
+    {
+        deg = 2;
+    }
+    else if (total <= dc - 10)
+    {
+        deg = 0;
+    }
+
+    if (nat === 20)
+    {
+        deg = Math.min(3, deg + 1);
+    }
+
+    if (nat === 1)
+    {
+        deg = Math.max(0, deg - 1);
+    }
+
+    const slugs = /** @type {const} */ ([
+        "criticalFailure",
+        "failure",
+        "success",
+        "criticalSuccess"
+    ]);
+
+    return slugs[deg] ?? "failure";
+}
+
+/**
  * PF2e does not support damage via {@link game.pf2e.Check.rerollFromMessage}. Mirror strike damage output:
  * clone primary {@link DamageRoll}, re-evaluate, rebuild splash instances, replace the chat message.
  *
@@ -513,6 +598,323 @@ export async function tryImproveDegreeOneStep(message)
             from: oldSlugForFlavor,
             to: newSlug
         });
+    }
+
+    return true;
+}
+
+/**
+ * @param {ChatMessage} message
+ * @param {string} outcomeSlug
+ * @param {number} total
+ * @param {number} dc
+ * @returns {string}
+ */
+function patchStandaloneSaveFlavorDegree(message, outcomeSlug, total, dc)
+{
+    const flavorHtml = message.flavor ?? "";
+
+    if (typeof flavorHtml !== "string" || !flavorHtml.includes("degree-of-success"))
+    {
+        return flavorHtml;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = flavorHtml;
+    const resultEl =
+        wrapper.querySelector(".target-dc-result .result.degree-of-success") ??
+        wrapper.querySelector(".result.degree-of-success");
+
+    if (!resultEl)
+    {
+        return flavorHtml;
+    }
+
+    /** @type {any} */
+    const dcMeta = message.flags?.pf2e?.context?.dc;
+    const scopeRaw = dcMeta?.scope ?? "Check";
+    const scopeKey = typeof game.pf2e?.system?.sluggify === "function"
+        ? game.pf2e.system.sluggify(String(scopeRaw), { camel: "bactrian" })
+        : String(scopeRaw);
+
+    /** @param {string} s */
+    const degLoc = (s) => game.i18n.localize(`PF2E.Check.Result.Degree.${scopeKey}.${s}`);
+
+    const offsetFormatted = new Intl.NumberFormat(game.i18n.lang, {
+        maximumFractionDigits: 0,
+        signDisplay: "always",
+        useGrouping: false
+    }).format(total - dc);
+
+    const esc = foundry.utils.escapeHTML;
+    resultEl.innerHTML =
+        `Result: <span class="${outcomeSlug}">${esc(degLoc(outcomeSlug))}</span> ` +
+        `<span data-whose="opposer">by ${esc(offsetFormatted)}</span>`;
+
+    return wrapper.innerHTML;
+}
+
+/**
+ * When {@link tryPf2eCheckRerollKeepNew} cannot run (e.g. permission quirks), re-evaluate the saving throw and update the message in place.
+ *
+ * @param {ChatMessage} message
+ * @returns {Promise<boolean>}
+ */
+export async function tryPf2eStandaloneSavingThrowRerollKeepNewManual(message)
+{
+    const ctx = message.flags?.pf2e?.context;
+    if (!ctx || ctx.type !== "saving-throw")
+    {
+        return false;
+    }
+
+    const dc = Number(ctx.dc?.value);
+    if (!Number.isFinite(dc))
+    {
+        return false;
+    }
+
+    const CheckRoll = getCheckRollConstructor();
+    if (!CheckRoll)
+    {
+        return false;
+    }
+
+    const raw = message.rolls?.[0];
+    if (raw == null)
+    {
+        return false;
+    }
+
+    /** @type {any} */
+    let oldRoll =
+        raw instanceof CheckRoll
+            ? raw
+            : CheckRoll.fromData(typeof raw === "string" ? JSON.parse(raw) : raw.toJSON?.() ?? raw);
+
+    /** @type {any} */
+    let unevaluated =
+        typeof oldRoll.clone === "function" ? oldRoll.clone() : CheckRoll.fromData(oldRoll.toJSON());
+
+    unevaluated.options = foundry.utils.mergeObject(unevaluated.options ?? {}, { isReroll: true });
+    const allowInteractive = ctx.rollMode !== "blindroll";
+
+    /** @type {any} */
+    let newRoll;
+
+    try
+    {
+        newRoll = await unevaluated.evaluate({ allowInteractive });
+    }
+    catch (err)
+    {
+        console.warn("[desires-echoes-of-creation] tryPf2eStandaloneSavingThrowRerollKeepNewManual evaluate", err);
+        return false;
+    }
+
+    const nat = firstD20Result(newRoll);
+    const total = newRoll.total;
+    const slug = basicSavingThrowOutcomeDegreeSlug(total, nat, dc);
+    const degNum = degreeSlugToPf2eNumber(slug);
+
+    if (degNum !== null)
+    {
+        newRoll.options = foundry.utils.mergeObject(newRoll.options ?? {}, { degreeOfSuccess: degNum });
+    }
+
+    const full = foundry.utils.duplicate(message.flags ?? {});
+
+    if (!full.pf2e)
+    {
+        full.pf2e = {};
+    }
+
+    full.pf2e.context = foundry.utils.mergeObject(full.pf2e.context ?? {}, {
+        outcome: slug,
+        unadjustedOutcome: slug,
+        isReroll: true
+    });
+
+    const newFlavor = patchStandaloneSaveFlavorDegree(message, slug, total, dc);
+
+    try
+    {
+        await message.update({
+            rolls: [newRoll.toJSON()],
+            flags: full,
+            content: String(total),
+            flavor: newFlavor
+        });
+    }
+    catch (err)
+    {
+        console.warn("[desires-echoes-of-creation] tryPf2eStandaloneSavingThrowRerollKeepNewManual update", err);
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * @param {ChatMessage} message
+ * @returns {{ variantKey: string, tokenId: string, variant: any, entry: any } | null}
+ */
+export function pickSingleToolbeltEmbeddedSave(message)
+{
+    /** @type {any} */
+    const th = message.flags?.["pf2e-toolbelt"]?.targetHelper;
+
+    if (!th?.saveVariants || typeof th.saveVariants !== "object")
+    {
+        return null;
+    }
+
+    const overlays = message.flags?.pf2e?.origin?.variant?.overlays;
+    const overlaySet = Array.isArray(overlays) ? new Set(overlays.map((o) => String(o))) : null;
+
+    /** @type {{ variantKey: string, tokenId: string, variant: any, entry: any } | null} */
+    let preferred = null;
+
+    /** @type {{ variantKey: string, tokenId: string, variant: any, entry: any } | null} */
+    let fallback = null;
+
+    for (const [variantKey, variant] of Object.entries(th.saveVariants))
+    {
+        const saves = variant?.saves;
+
+        if (!saves || typeof saves !== "object")
+        {
+            continue;
+        }
+
+        const tokenIds = Object.keys(saves).filter(
+            (tid) => typeof saves[tid]?.roll === "string" && saves[tid].roll.length > 0
+        );
+
+        if (tokenIds.length !== 1)
+        {
+            continue;
+        }
+
+        const tokenId = tokenIds[0];
+        const entry = saves[tokenId];
+        const pick = { variantKey, tokenId, variant, entry };
+
+        if (overlaySet?.has(String(variantKey)))
+        {
+            preferred = pick;
+            break;
+        }
+
+        fallback ??= pick;
+    }
+
+    return preferred ?? fallback;
+}
+
+/**
+ * PF2e Toolbelt stores target saves inside {@code flags.pf2e-toolbelt.targetHelper} on the spell-cast chat message — reroll in place (keep new).
+ *
+ * @param {ChatMessage} message
+ * @returns {Promise<boolean>}
+ */
+export async function tryPf2eToolbeltEmbeddedSaveRerollKeepNew(message)
+{
+    if (message.flags?.pf2e?.context?.type !== "spell-cast")
+    {
+        return false;
+    }
+
+    const picked = pickSingleToolbeltEmbeddedSave(message);
+
+    if (!picked)
+    {
+        return false;
+    }
+
+    const dc = Number(picked.variant?.dc);
+    if (!Number.isFinite(dc))
+    {
+        return false;
+    }
+
+    const CheckRoll = getCheckRollConstructor();
+
+    if (!CheckRoll)
+    {
+        return false;
+    }
+
+    /** @type {any} */
+    let oldRoll;
+
+    try
+    {
+        oldRoll = CheckRoll.fromData(JSON.parse(picked.entry.roll));
+    }
+    catch (err)
+    {
+        console.warn("[desires-echoes-of-creation] Toolbelt save parse", err);
+        return false;
+    }
+
+    /** @type {any} */
+    const unevaluated =
+        typeof oldRoll.clone === "function" ? oldRoll.clone() : CheckRoll.fromData(oldRoll.toJSON());
+
+    unevaluated.options = foundry.utils.mergeObject(unevaluated.options ?? {}, { isReroll: true });
+
+    const ctxRm = message.flags?.pf2e?.context?.rollMode;
+    const allowInteractive = ctxRm !== "blindroll" && message.blind !== true;
+
+    /** @type {any} */
+    let newRoll;
+
+    try
+    {
+        newRoll = await unevaluated.evaluate({ allowInteractive });
+    }
+    catch (err)
+    {
+        console.warn("[desires-echoes-of-creation] Toolbelt save evaluate", err);
+        return false;
+    }
+
+    const nat = firstD20Result(newRoll);
+    const total = newRoll.total;
+    const slug = basicSavingThrowOutcomeDegreeSlug(total, nat, dc);
+    const degNum = degreeSlugToPf2eNumber(slug);
+
+    if (degNum !== null)
+    {
+        newRoll.options = foundry.utils.mergeObject(newRoll.options ?? {}, { degreeOfSuccess: degNum });
+    }
+
+    const flags = foundry.utils.deepClone(message.flags ?? {});
+    const bucket =
+        flags?.["pf2e-toolbelt"]?.targetHelper?.saveVariants?.[picked.variantKey]?.saves?.[
+            picked.tokenId
+        ];
+
+    if (!bucket)
+    {
+        return false;
+    }
+
+    bucket.roll = JSON.stringify(newRoll.toJSON());
+    bucket.value = total;
+    bucket.die = nat;
+    bucket.success = slug;
+    bucket.unadjustedOutcome = slug;
+
+    try
+    {
+        await message.update({ flags });
+    }
+    catch (err)
+    {
+        console.warn("[desires-echoes-of-creation] Toolbelt save update", err);
+        return false;
     }
 
     return true;

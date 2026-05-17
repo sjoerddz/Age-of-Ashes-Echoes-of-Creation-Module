@@ -247,7 +247,7 @@ function echoCondition(first, second)
  * @param {Item} echoItem
  * @returns {Promise<void>}
  */
-async function consumeOneEchoFragment(echoItem)
+export async function consumeOneEchoFragment(echoItem)
 {
     const qtyRaw = echoItem.system?.quantity;
     const qty = Number(qtyRaw);

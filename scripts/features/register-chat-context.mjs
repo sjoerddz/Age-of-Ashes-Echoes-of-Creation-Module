@@ -7,6 +7,7 @@ Registers PF2e chat message context menu entries for this module.
 */
 
 import { debugContext, logClientDebugSettingChange } from "../lib/module-debug.mjs";
+import { createCasterSaveEchoMenuEntry } from "./caster-save-reroll-context.mjs";
 import { createEchoFragmentMenuEntry } from "./echo-fragment-context.mjs";
 import { createSteadyTheLineMenuEntry } from "./steady-the-line-context.mjs";
 
@@ -20,12 +21,22 @@ function ensureDeocChatMenuEntries(menuItems)
         return;
     }
 
-    if (menuItems.some((e) => e && e._deocId === "echo-fragment"))
+    const seen = new Set(menuItems.map((e) => e && e._deocId).filter(Boolean));
+
+    if (!seen.has("steady-the-line"))
     {
-        return;
+        menuItems.push(createSteadyTheLineMenuEntry());
     }
 
-    menuItems.push(createSteadyTheLineMenuEntry(), createEchoFragmentMenuEntry());
+    if (!seen.has("echo-fragment"))
+    {
+        menuItems.push(createEchoFragmentMenuEntry());
+    }
+
+    if (!seen.has("caster-save-echo"))
+    {
+        menuItems.push(createCasterSaveEchoMenuEntry());
+    }
 }
 
 /**

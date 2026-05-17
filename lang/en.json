@@ -16,7 +16,8 @@
     },
     "CONTEXT": {
       "STEADY_THE_LINE": "Upgrade using reaction \"Steady the Line\"",
-      "ECHO_FRAGMENT_REROLL": "Reroll using Echo fragment"
+      "ECHO_FRAGMENT_REROLL": "Reroll using Echo fragment",
+      "CASTER_SAVE_ECHO_REROLL": "Reroll target's save (caster pays Echo Fragment)"
     },
     "WARN": {
       "PF2E_ONLY": "Desires Echoes of Creation requires the Pathfinder 2e system.",
@@ -25,7 +26,10 @@
       "ECHO_NO_ITEM": "No Echo Fragment item found on this actor (check the slug setting).",
       "ECHO_NOT_OWNER": "You can only Echo-reroll your own rolls.",
       "STEADY_IMMUNE": "That ally is currently immune to Steady the Line from this banner (until daily preparation clears the flag in a future update, use the actor Flags tab to remove steadyLineImmune if needed).",
-      "STEADY_NO_BEARER": "Steady the Line: you must control an actor who is openly carrying the Hellknight Banner."
+      "STEADY_NO_BEARER": "Steady the Line: you must control an actor who is openly carrying the Hellknight Banner.",
+      "CASTER_SAVE_ECHO_NOT_CASTER_OWNER": "Echo Fragment: only the spell's caster (or a GM) can pay for this reroll.",
+      "CASTER_SAVE_ECHO_NO_ITEM": "Echo Fragment: no Echo Fragment on the caster (check the slug setting).",
+      "CASTER_SAVE_ECHO_PF2E_API": "Echo Fragment: could not reroll this save automatically. Use system tools, then adjust Echo Fragment quantity manually if needed."
     }
   }
 }
