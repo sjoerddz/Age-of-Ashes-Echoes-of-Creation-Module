@@ -13,14 +13,16 @@ import {
     getSpellCasterActorFromSaveRelatedMessage,
     isCasterSaveEchoEligibleMessage,
     isStandalonePf2eSavingThrowMessage,
-    isToolbeltSpellWithSingleEmbeddedSave
+    isToolbeltSpellWithEmbeddedSaves
 } from "../lib/caster-save-helpers.mjs";
 import { requestGmStandaloneSaveRerollKeepNew } from "../lib/caster-save-gm-socket.mjs";
+import { selectToolbeltSavePickWithDialog } from "../lib/toolbelt-save-target-dialog.mjs";
 import { getChatMessageFromContextTarget, resolveContextMenuTarget } from "../lib/chat-from-li.mjs";
 import { loc, MODULE_ID } from "../lib/module-constants.mjs";
 import { debugContext, debugContextEnabled } from "../lib/module-debug.mjs";
 import { SETTING_ECHO_SLUG } from "../lib/module-settings.mjs";
 import {
+    listToolbeltEmbeddedSavePicks,
     tryPf2eStandaloneSavingThrowRerollKeepNewManual,
     tryPf2eToolbeltEmbeddedSaveRerollKeepNew
 } from "../lib/pf2e-reroll.mjs";
@@ -173,9 +175,17 @@ async function casterSaveEchoCallback(first, second)
     /** When the active GM rerolled via socket, they already spent the Echo Fragment. */
     let fragmentAlreadySpent = false;
 
-    if (isToolbeltSpellWithSingleEmbeddedSave(message))
+    if (isToolbeltSpellWithEmbeddedSaves(message))
     {
-        ok = await tryPf2eToolbeltEmbeddedSaveRerollKeepNew(message);
+        const picks = listToolbeltEmbeddedSavePicks(message);
+        const chosen = await selectToolbeltSavePickWithDialog(picks);
+
+        if (!chosen)
+        {
+            return;
+        }
+
+        ok = await tryPf2eToolbeltEmbeddedSaveRerollKeepNew(message, chosen);
     }
     else if (isStandalonePf2eSavingThrowMessage(message))
     {

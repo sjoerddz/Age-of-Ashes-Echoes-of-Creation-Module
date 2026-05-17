@@ -11,7 +11,9 @@ Pathfinder **2e** helpers for Foundry **v13**, built for the **Echoes of Creatio
 ## What it does
 
 - **Steady the Line** — Chat context action for Hellknight Banner–style degree bumps (see compendium item text in-game).
-- **Echo Fragment** — Chat context rerolls that spend stack **quantity** on eligible messages.
+- **Echo Fragment** — Chat context rerolls that spend stack **quantity** on eligible messages:
+  - **Roller-owned** checks and damage (the character who rolled the card must be yours, as before).
+  - **Caster-paid saves** — separate context action on **saving-throw** messages and on **PF2e Toolbelt** spell cards with embedded saves. The **spell’s caster** pays the fragment. Standalone saves use an in-place reroll; **if a player cannot update the GM’s chat message**, the **active GM** applies the change via **module socket** (`module.json` sets `"socket": true`). On Toolbelt cards with **several targets**, a **dialog** asks which embedded save to reroll (keep new roll).
 - **Echoes of Creation Items** — Built-in **Item** compendium: Banner, Echo Fragment, Sovereign Amber (dormant and awakened), aura / **Temporal Infusion** effect items, and art under [`assets/`](assets/).
 
 World defaults expect item **slugs** `hellknight-banner` and `echo-fragment`; amber pieces use `sovereign-amber` and `sovereign-amber-awakened`. Change names or slugs on the sheet if your table uses different conventions.
@@ -26,7 +28,7 @@ Use **Install Module → Manifest URL** with:
 https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Module/main/module.json
 ```
 
-**Before install works,** GitHub must host a **release** whose tag matches `module.json`: tag **`v` + `version`** (example: version `0.1.9` → tag `v0.1.9`) and release asset **`desires-echoes-of-creation.zip`**. Push tag `v*` to run the [release workflow](.github/workflows/release.yml), or upload the zip manually. Full procedure: [PUBLISHING.md](PUBLISHING.md).
+**Before install works,** GitHub must host a **release** whose tag matches `module.json`: tag **`v` + `version`** (example: version `0.2.0` → tag `v0.2.0`) and release asset **`desires-echoes-of-creation.zip`**. Push tag `v*` to run the [release workflow](.github/workflows/release.yml), or upload the zip manually. Full procedure: [PUBLISHING.md](PUBLISHING.md).
 
 ### If install fails
 
@@ -40,7 +42,7 @@ https://raw.githubusercontent.com/sjoerddz/Age-of-Ashes-Echoes-of-Creation-Modul
 
 **Hellknight Banner** — Art: `assets/hellknight-banner/conquest.jpg`. **30 ft** visual aura: allies **+1 status to saves vs. fear** while the bearer carries the banner openly (PF2e **Aura** + linked effect). **Steady the Line** remains the module chat action.
 
-**Echo Fragment** — Stackable `quantity`; module code decrements `system.quantity` when you spend a reroll.
+**Echo Fragment** — Stackable `quantity`; module code decrements `system.quantity` when you spend a reroll (roller path or caster-paid save path). **GMs stay connected** for caster save rerolls on chat cards the caster cannot edit.
 
 **Sovereign Amber** (level 4) and **Sovereign Amber, Awakened** (level 8) — Art: `assets/sovereign-amber/`. Linked effect items cover dormant/awakened auras and **Temporal Infusion (Amplified Healing)**.
 

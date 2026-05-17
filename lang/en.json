@@ -19,6 +19,13 @@
       "ECHO_FRAGMENT_REROLL": "Reroll using Echo fragment",
       "CASTER_SAVE_ECHO_REROLL": "Reroll target's save (caster pays Echo Fragment)"
     },
+    "DIALOG": {
+      "TOOLBELT_PICK_SAVE_TITLE": "Echo Fragment — which save to reroll?",
+      "TOOLBELT_PICK_SAVE_HINT": "Several targets have saves on this spell card. Pick one; the new roll is kept.",
+      "TOOLBELT_PICK_SAVE_SELECT": "Target",
+      "TOOLBELT_PICK_SAVE_CONFIRM": "Reroll (keep new)",
+      "TOOLBELT_PICK_SAVE_CANCEL": "Cancel"
+    },
     "WARN": {
       "PF2E_ONLY": "Desires Echoes of Creation requires the Pathfinder 2e system.",
       "STEADY_PF2E_API": "Steady the Line: could not update this PF2e chat card automatically. Adjust the degree of success manually.",

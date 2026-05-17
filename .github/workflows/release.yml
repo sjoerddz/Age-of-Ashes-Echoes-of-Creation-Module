@@ -1,5 +1,5 @@
 # Builds a Foundry-ready zip (root folder = module id) and attaches it to a GitHub Release when you push a version tag.
-# One-time: create the empty repo on GitHub under your account, add this folder as remote, push main, then tag e.g. v0.1.0 and push tags.
+# One-time: create the empty repo on GitHub under your account, add this folder as remote, push main, then tag e.g. v0.2.0 and push tags.
 
 name: Release Foundry module
 

@@ -7,7 +7,7 @@ Spell caster resolution and permission checks for caster-paid Echo Fragment save
 */
 
 import { findItemOnActorBySlug } from "./actor-helpers.mjs";
-import { pickSingleToolbeltEmbeddedSave } from "./pf2e-reroll.mjs";
+import { listToolbeltEmbeddedSavePicks } from "./pf2e-reroll.mjs";
 
 /**
  * @param {unknown} ref
@@ -112,11 +112,11 @@ export function isStandalonePf2eSavingThrowMessage(message)
  * @param {ChatMessage} message
  * @returns {boolean}
  */
-export function isToolbeltSpellWithSingleEmbeddedSave(message)
+export function isToolbeltSpellWithEmbeddedSaves(message)
 {
     return (
         message.flags?.pf2e?.context?.type === "spell-cast" &&
-        pickSingleToolbeltEmbeddedSave(message) != null
+        listToolbeltEmbeddedSavePicks(message).length > 0
     );
 }
 
@@ -127,7 +127,7 @@ export function isToolbeltSpellWithSingleEmbeddedSave(message)
 export function isCasterSaveEchoEligibleMessage(message)
 {
     return (
-        isStandalonePf2eSavingThrowMessage(message) || isToolbeltSpellWithSingleEmbeddedSave(message)
+        isStandalonePf2eSavingThrowMessage(message) || isToolbeltSpellWithEmbeddedSaves(message)
     );
 }
 

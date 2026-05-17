@@ -756,83 +756,157 @@ export async function tryPf2eStandaloneSavingThrowRerollKeepNewManual(message)
 }
 
 /**
- * @param {ChatMessage} message
- * @returns {{ variantKey: string, tokenId: string, variant: any, entry: any } | null}
+ * @typedef {{ variantKey: string, tokenId: string, variant: any, entry: any, label: string }} ToolbeltSavePick
  */
-export function pickSingleToolbeltEmbeddedSave(message)
+
+/**
+ * @param {string} tokenId
+ * @param {any} entry
+ * @returns {string}
+ */
+function formatToolbeltEmbeddedSaveRowLabel(tokenId, entry)
 {
+    /** @type {any} */
+    const e = entry;
+
+    if (typeof e?.name === "string" && e.name.trim())
+    {
+        return e.name.trim();
+    }
+
+    const tok = canvas?.tokens?.get?.(tokenId);
+
+    if (tok?.name)
+    {
+        return String(tok.name);
+    }
+
+    if (tok?.actor?.name)
+    {
+        return String(tok.actor.name);
+    }
+
+    return String(tokenId);
+}
+
+/**
+ * All Toolbelt embedded saves on this spell-cast card, preferring {@code flags.pf2e.origin.variant.overlays} keys.
+ *
+ * @param {ChatMessage} message
+ * @returns {ToolbeltSavePick[]}
+ */
+export function listToolbeltEmbeddedSavePicks(message)
+{
+    /** @type {ToolbeltSavePick[]} */
+    const rows = [];
+
     /** @type {any} */
     const th = message.flags?.["pf2e-toolbelt"]?.targetHelper;
 
     if (!th?.saveVariants || typeof th.saveVariants !== "object")
     {
-        return null;
+        return rows;
     }
 
     const overlays = message.flags?.pf2e?.origin?.variant?.overlays;
-    const overlaySet = Array.isArray(overlays) ? new Set(overlays.map((o) => String(o))) : null;
+    const overlayKeys = Array.isArray(overlays) ? overlays.map((o) => String(o)) : [];
 
-    /** @type {{ variantKey: string, tokenId: string, variant: any, entry: any } | null} */
-    let preferred = null;
-
-    /** @type {{ variantKey: string, tokenId: string, variant: any, entry: any } | null} */
-    let fallback = null;
-
-    for (const [variantKey, variant] of Object.entries(th.saveVariants))
+    /**
+     * @param {string} variantKey
+     * @param {any} variant
+     */
+    const addVariant = (variantKey, variant) =>
     {
         const saves = variant?.saves;
 
         if (!saves || typeof saves !== "object")
         {
-            continue;
+            return;
         }
 
-        const tokenIds = Object.keys(saves).filter(
-            (tid) => typeof saves[tid]?.roll === "string" && saves[tid].roll.length > 0
-        );
-
-        if (tokenIds.length !== 1)
+        for (const tokenId of Object.keys(saves))
         {
-            continue;
+            const entry = saves[tokenId];
+
+            if (typeof entry?.roll !== "string" || entry.roll.length === 0)
+            {
+                continue;
+            }
+
+            rows.push({
+                variantKey,
+                tokenId,
+                variant,
+                entry,
+                label: formatToolbeltEmbeddedSaveRowLabel(tokenId, entry)
+            });
         }
+    };
 
-        const tokenId = tokenIds[0];
-        const entry = saves[tokenId];
-        const pick = { variantKey, tokenId, variant, entry };
+    for (const ok of overlayKeys)
+    {
+        const variant = th.saveVariants[ok];
 
-        if (overlaySet?.has(String(variantKey)))
+        if (variant && typeof variant === "object")
         {
-            preferred = pick;
-            break;
+            addVariant(ok, variant);
         }
-
-        fallback ??= pick;
     }
 
-    return preferred ?? fallback;
+    if (rows.length > 0)
+    {
+        return rows;
+    }
+
+    for (const [variantKey, variant] of Object.entries(th.saveVariants))
+    {
+        if (!variant || typeof variant !== "object")
+        {
+            continue;
+        }
+
+        addVariant(variantKey, variant);
+    }
+
+    return rows;
+}
+
+/**
+ * When exactly one embedded save exists (after overlay preference), return it; otherwise {@code null}.
+ *
+ * @param {ChatMessage} message
+ * @returns {ToolbeltSavePick | null}
+ */
+export function pickSingleToolbeltEmbeddedSave(message)
+{
+    const list = listToolbeltEmbeddedSavePicks(message);
+
+    return list.length === 1 ? list[0] : null;
 }
 
 /**
  * PF2e Toolbelt stores target saves inside {@code flags.pf2e-toolbelt.targetHelper} on the spell-cast chat message — reroll in place (keep new).
  *
  * @param {ChatMessage} message
+ * @param {ToolbeltSavePick | null | undefined} [pickedRow] — from {@link listToolbeltEmbeddedSavePicks} / UI; when omitted, only succeeds if exactly one row exists.
  * @returns {Promise<boolean>}
  */
-export async function tryPf2eToolbeltEmbeddedSaveRerollKeepNew(message)
+export async function tryPf2eToolbeltEmbeddedSaveRerollKeepNew(message, pickedRow)
 {
     if (message.flags?.pf2e?.context?.type !== "spell-cast")
     {
         return false;
     }
 
-    const picked = pickSingleToolbeltEmbeddedSave(message);
+    /** @type {ToolbeltSavePick | null | undefined} */
+    const picked = pickedRow ?? pickSingleToolbeltEmbeddedSave(message);
 
     if (!picked)
     {
         return false;
     }
 
-    const dc = Number(picked.variant?.dc);
+    const dc = Number(picked?.variant?.dc);
     if (!Number.isFinite(dc))
     {
         return false;
